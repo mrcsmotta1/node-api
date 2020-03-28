@@ -3,8 +3,21 @@ const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 
 module.exports = {
+  /**
+   * @swagger
+   * /api/v1/products:
+   *  get:
+   *    description: Utilize para requisição de todos os produtos
+   *    tags:
+   *      - Products
+   *    produces:
+   *      - application/json
+   *    responses:
+   *      '200':
+   *         description: products
+   */
   async index(req, res) {
-      const { page = 1} = req.query;
+    const { page = 1 } = req.query;
     const products = await Product.paginate({}, { page, limit: 10 });
 
     return res.json(products);
