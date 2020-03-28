@@ -8,6 +8,7 @@ module.exports = {
    *  get:
    *    tags:
    *    - Products
+   *    summary: Lista de produtos
    *    description: Lista de produtos
    *    consumes:
    *      - application/json
@@ -17,13 +18,13 @@ module.exports = {
    *       200:
    *         description:
    *         schema:
-   *          $ref: '#/definitions/ProductsLista'
+   *          $ref: '#/definitions/ProductsSelect'
    *       400:
    *          description: "Invalid ID supplied"
    *       404:
    *          description: "Order not found"
    * definitions:
-   *    ProductsLista:
+   *    ProductsSelect:
    *       type: object
    *       properties:
    *         id:
@@ -41,6 +42,9 @@ module.exports = {
    *         createdAd:
    *            type: string
    *            format: date-time
+   *         __v:
+   *            type: integer
+   *            format: 0
    *       xml:
    *          name: 'Products'
    *
@@ -58,6 +62,7 @@ module.exports = {
    *  get:
    *    tags:
    *    - Products
+   *    summary: Selecione um produto pelo id
    *    description: Selecione um produto pelo id
    *    consumes:
    *      - application/json
@@ -99,6 +104,9 @@ module.exports = {
    *         createdAd:
    *            type: string
    *            format: date-time
+   *         __v:
+   *            type: integer
+   *            format: 0
    *       xml:
    *          name: 'Products'
    *
@@ -146,13 +154,13 @@ module.exports = {
    *       201:
    *         description:
    *         schema:
-   *          $ref: '#/definitions/ProductsInsereModel'
+   *          $ref: '#/definitions/ProductsInsertModel'
    *       400:
    *          description: "Erro ao salvar produto"
    *       404:
    *          description: "Order not found"
    * definitions:
-   *    ProductsInsereModel:
+   *    ProductsInsertModel:
    *       type: object
    *       properties:
    *         _id:
@@ -170,6 +178,9 @@ module.exports = {
    *         createdAd:
    *            type: string
    *            format: date-time
+   *         __v:
+   *            type: integer
+   *            format: 0
    *       xml:
    *          name: 'Products'
    *
@@ -184,6 +195,72 @@ module.exports = {
     }
   },
 
+  /**
+   * @swagger
+   * /api/v1/products/{id}:
+   *  put:
+   *    tags:
+   *    - Products
+   *    summary: 'Insere um novo produto'
+   *    description: 'Insere um novo produto'
+   *    produces:
+   *    - application/json
+   *    parameters:
+   *    - name: id
+   *      in: path
+   *      description: ID do Produto que será alterado
+   *      required: true
+   *    - in: body
+   *      name: body
+   *      description: Insere um novo produto
+   *      required: true
+   *      schema:
+   *        type: object
+   *        properties:
+   *          title:
+   *             type: string
+   *             example: "Api nodeJS"
+   *          description:
+   *             type: string
+   *             example: "Documentação Swagger"
+   *          url:
+   *             type: string
+   *             example: "https://swagger.io/"
+   *    responses:
+   *       201:
+   *         description:
+   *         schema:
+   *          $ref: '#/definitions/ProductsUpdateModel'
+   *       400:
+   *          description: "Erro ao salvar produto"
+   *       404:
+   *          description: "Order not found"
+   * definitions:
+   *    ProductsUpdateModel:
+   *       type: object
+   *       properties:
+   *         _id:
+   *            type: string
+   *            example: 5e7fa629382a536b82e142cf
+   *         title:
+   *            type: string
+   *            example: "Api nodeJS"
+   *         description:
+   *            type: string
+   *            example: "Documentação Swagger"
+   *         url:
+   *            type: string
+   *            example: "https://swagger.io/"
+   *         createdAd:
+   *            type: string
+   *            format: date-time
+   *         __v:
+   *            type: integer
+   *            format: 0
+   *       xml:
+   *          name: 'Products'
+   *
+   */
   async update(req, res) {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true
