@@ -269,9 +269,38 @@ module.exports = {
     return res.json(product);
   },
 
+  /**
+   * @swagger
+   * /api/v1/products/{id}:
+   *  delete:
+   *    tags:
+   *    - Products
+   *    summary: Delete um produto pelo id
+   *    description: Delete um produto pelo id
+   *    consumes:
+   *      - application/json
+   *    produces:
+   *      - application/json
+   *    parameters:
+   *      - in: path
+   *        name: id
+   *        format: string
+   *        schema:
+   *          type: string
+   *        required: true
+   *        description: String id para selecionar Produtos
+   *    responses:
+   *       200:
+   *          description: "ok"
+   *       400:
+   *          description: "ID Invalido"
+   *       404:
+   *          description: "Nada encontrado"
+   */
+
   async destroy(req, res) {
     const product = await Product.findByIdAndDelete(req.params.id);
 
-    return res.send();
+    return res.status(200).json({ message: "ok" });
   }
 };
