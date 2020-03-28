@@ -1,5 +1,27 @@
 const express = require("express");
 const routes = express.Router();
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
+// Extended: https://swagger.io/specification/#referenceObject
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: "Creating API with Rockertset.",
+      version: "1.0.0",
+      descritpion: "Documentação API Produtos",
+      contact: {
+        name: "Marcos Pedroso Motta"
+      },
+      server: ["http://localhst:3001"]
+    }
+  },
+  // ['./src/controllers/ProductController/*.js']
+  apis: ["./src/controllers/ProductController.js"]
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+routes.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const ProductController = require("./controllers/ProductController");
 
