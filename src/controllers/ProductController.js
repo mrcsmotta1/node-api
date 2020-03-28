@@ -6,9 +6,9 @@ module.exports = {
    * @swagger
    * /api/v1/products:
    *  get:
-   *    description: Lista de produtos
    *    tags:
-   *      - Products
+   *    - Products
+   *    description: Lista de produtos
    *    consumes:
    *      - application/json
    *    produces:
@@ -17,13 +17,13 @@ module.exports = {
    *       200:
    *         description:
    *         schema:
-   *          $ref: '#/definitions/Products'
+   *          $ref: '#/definitions/ProductsLista'
    *       400:
    *          description: "Invalid ID supplied"
    *       404:
    *          description: "Order not found"
    * definitions:
-   *    Products:
+   *    ProductsLista:
    *       type: object
    *       properties:
    *         id:
@@ -42,7 +42,7 @@ module.exports = {
    *            type: string
    *            format: date-time
    *       xml:
-   *          name: 'Product'
+   *          name: 'Products'
    *
    */
   async index(req, res) {
@@ -56,9 +56,9 @@ module.exports = {
    * @swagger
    * /api/v1/products/{id}:
    *  get:
-   *    description: Selecione um produto pelo id
    *    tags:
-   *      - Products
+   *    - Products
+   *    description: Selecione um produto pelo id
    *    consumes:
    *      - application/json
    *    produces:
@@ -75,13 +75,13 @@ module.exports = {
    *       200:
    *         description:
    *         schema:
-   *          $ref: '#/definitions/Product'
+   *          $ref: '#/definitions/ProductsSelectById'
    *       400:
    *          description: "ID Invalido"
    *       404:
    *          description: "Nada encontrado"
    * definitions:
-   *    Product:
+   *    ProductsSelectById:
    *       type: object
    *       properties:
    *         id:
@@ -100,7 +100,7 @@ module.exports = {
    *            type: string
    *            format: date-time
    *       xml:
-   *          name: 'Product'
+   *          name: 'Products'
    *
    */
   async show(req, res) {
@@ -115,6 +115,65 @@ module.exports = {
     }
   },
 
+  /**
+   * @swagger
+   * /api/v1/products:
+   *  post:
+   *    tags:
+   *    - Products
+   *    summary: 'Insere um novo produto'
+   *    description: 'Insere um novo produto'
+   *    produces:
+   *    - application/json
+   *    parameters:
+   *    - in: body
+   *      name: body
+   *      description: Insere um novo produto
+   *      required: true
+   *      schema:
+   *        type: object
+   *        properties:
+   *          title:
+   *             type: string
+   *             example: "Api nodeJS"
+   *          description:
+   *             type: string
+   *             example: "Documentação Swagger"
+   *          url:
+   *             type: string
+   *             example: "https://swagger.io/"
+   *    responses:
+   *       201:
+   *         description:
+   *         schema:
+   *          $ref: '#/definitions/ProductsInsereModel'
+   *       400:
+   *          description: "Erro ao salvar produto"
+   *       404:
+   *          description: "Order not found"
+   * definitions:
+   *    ProductsInsereModel:
+   *       type: object
+   *       properties:
+   *         _id:
+   *            type: string
+   *            example: 5e7fa629382a536b82e142cf
+   *         title:
+   *            type: string
+   *            example: "Api nodeJS"
+   *         description:
+   *            type: string
+   *            example: "Documentação Swagger"
+   *         url:
+   *            type: string
+   *            example: "https://swagger.io/"
+   *         createdAd:
+   *            type: string
+   *            format: date-time
+   *       xml:
+   *          name: 'Products'
+   *
+   */
   async store(req, res) {
     try {
       const product = await Product.create(req.body);
