@@ -104,10 +104,16 @@ module.exports = {
    *          name: 'Product'
    *
    */
-  async show(req, res) {
-    const product = await Product.findById(req.params.id);
+  async show(req, res, next) {
+    try {
+      const product = await Product.findById(req.params.id);
 
-    return res.json(product);
+      return product == null
+        ? res.status(404).json({ message: "nada encontrado" })
+        : res.json({ message: "sucesso", product });
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
   },
 
   async store(req, res) {
