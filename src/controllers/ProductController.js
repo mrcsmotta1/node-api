@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const Product = mongoose.model("Product");
 
 module.exports = {
@@ -78,9 +77,9 @@ module.exports = {
    *         schema:
    *          $ref: '#/definitions/Product'
    *       400:
-   *          description: "Invalid ID supplied"
+   *          description: "ID Invalido"
    *       404:
-   *          description: "Order not found"
+   *          description: "Nada encontrado"
    * definitions:
    *    Product:
    *       type: object
@@ -104,7 +103,7 @@ module.exports = {
    *          name: 'Product'
    *
    */
-  async show(req, res, next) {
+  async show(req, res) {
     try {
       const product = await Product.findById(req.params.id);
 
@@ -112,7 +111,7 @@ module.exports = {
         ? res.status(404).json({ message: "nada encontrado" })
         : res.json({ message: "sucesso", product });
     } catch (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(400).json({ message: "ID Invalido" });
     }
   },
 
