@@ -14,6 +14,6 @@ mongoose.connect("mongodb://localhost:27017/nodeapi", {
 requireDir("./src/models");
 
 //Primeira rota
-app.use("/api", require("./src/routes"));
+app.use("/api/v1", require("./src/routes"));
 
 app.listen(3001);
