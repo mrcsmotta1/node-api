@@ -201,8 +201,8 @@ module.exports = {
    *  put:
    *    tags:
    *    - Products
-   *    summary: 'Insere um novo produto'
-   *    description: 'Insere um novo produto'
+   *    summary: 'Altere um produto pelo id'
+   *    description: 'Altere um produto pelo id'
    *    produces:
    *    - application/json
    *    parameters:

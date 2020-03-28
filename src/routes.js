@@ -11,7 +11,9 @@ const swaggerOptions = {
       version: "1.0.0",
       descritpion: "Documentação API Produtos",
       contact: {
-        name: "Marcos Pedroso Motta"
+        name: "Marcos Pedroso Motta",
+        url: "https://www.linkedin.com/in/marcos-pedroso-motta-62662931/",
+        email: "mrcsmotta1@gmail.com"
       },
       server: ["http://localhst:3001"]
     }
