@@ -16,13 +16,13 @@ module.exports = {
    *      - application/json
    *    responses:
    *       200:
-   *         description:
+   *         description: "ok"
    *         schema:
    *          $ref: '#/definitions/ProductsSelect'
    *       400:
-   *          description: "Invalid ID supplied"
+   *          description: "bad request"
    *       404:
-   *          description: "Order not found"
+   *          description: "order not found"
    * definitions:
    *    ProductsSelect:
    *       type: object
@@ -50,10 +50,16 @@ module.exports = {
    *
    */
   async index(req, res) {
-    const { page = 1 } = req.query;
-    const products = await Product.paginate({}, { page, limit: 10 });
+    try {
+      const { page = 1 } = req.query;
+      const products = await Product.paginate({}, { page, limit: 10 });
 
-    return res.json(products);
+      return products == null
+        ? res.status(404).json({ message: "order not found" })
+        : res.status(200).json({ message: "ok", products });
+    } catch (err) {
+      return res.status(400).json({ message: "bad request" });
+    }
   },
 
   /**
@@ -78,13 +84,13 @@ module.exports = {
    *        description: String id para selecionar Produtos
    *    responses:
    *       200:
-   *         description:
+   *         description: "ok"
    *         schema:
    *          $ref: '#/definitions/ProductsSelectById'
    *       400:
-   *          description: "ID Invalido"
+   *          description: "bad resquest"
    *       404:
-   *          description: "Nada encontrado"
+   *          description: "order not found"
    * definitions:
    *    ProductsSelectById:
    *       type: object
@@ -116,10 +122,10 @@ module.exports = {
       const product = await Product.findById(req.params.id);
 
       return product == null
-        ? res.status(404).json({ message: "nada encontrado" })
-        : res.json({ message: "sucesso", product });
+        ? res.status(404).json({ message: "order not found" })
+        : res.status(200).json({ message: "ok" });
     } catch (err) {
-      return res.status(400).json({ message: "ID Invalido" });
+      return res.status(400).json({ message: "bad request" });
     }
   },
 
@@ -152,13 +158,13 @@ module.exports = {
    *             example: "https://swagger.io/"
    *    responses:
    *       201:
-   *         description:
+   *         description: "ok"
    *         schema:
    *          $ref: '#/definitions/ProductsInsertModel'
    *       400:
-   *          description: "Erro ao salvar produto"
+   *          description: "bad request"
    *       404:
-   *          description: "Order not found"
+   *          description: "order not found"
    * definitions:
    *    ProductsInsertModel:
    *       type: object
@@ -188,10 +194,11 @@ module.exports = {
   async store(req, res) {
     try {
       const product = await Product.create(req.body);
-
-      return res.status(201).json(product);
+      return product == null
+        ? res.status(404).json({ message: "order not found" })
+        : res.status(201).json({ message: "ok" });
     } catch (err) {
-      res.status(400).json({ message: "Erro ao salvar produto" });
+      return res.status(400).json({ message: "bad request" });
     }
   },
 
@@ -228,11 +235,11 @@ module.exports = {
    *             example: "https://swagger.io/"
    *    responses:
    *       201:
-   *         description:
+   *         description: "ok"
    *         schema:
    *          $ref: '#/definitions/ProductsUpdateModel'
    *       400:
-   *          description: "Erro ao salvar produto"
+   *          description: "bad resquest"
    *       404:
    *          description: "Order not found"
    * definitions:
@@ -262,11 +269,17 @@ module.exports = {
    *
    */
   async update(req, res) {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true
-    });
+    try {
+      const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        new: true
+      });
 
-    return res.json(product);
+      return product == null
+        ? res.status(404).json({ message: "order not found" })
+        : res.status(200).json({ message: "ok" });
+    } catch (err) {
+      return res.status(400).json({ message: "bad request" });
+    }
   },
 
   /**
@@ -293,14 +306,20 @@ module.exports = {
    *       200:
    *          description: "ok"
    *       400:
-   *          description: "ID Invalido"
+   *          description: "bad request"
    *       404:
-   *          description: "Nada encontrado"
+   *          description: "order not found"
    */
 
   async destroy(req, res) {
-    const product = await Product.findByIdAndDelete(req.params.id);
+    try {
+      const product = await Product.findByIdAndDelete(req.params.id);
 
-    return res.status(200).json({ message: "ok" });
+      return product == null
+        ? res.status(404).json({ message: "order not found" })
+        : res.status(200).json({ message: "ok" });
+    } catch (err) {
+      return res.status(400).json({ message: "bad request" });
+    }
   }
 };
