@@ -116,9 +116,13 @@ module.exports = {
   },
 
   async store(req, res) {
-    const product = await Product.create(req.body);
+    try {
+      const product = await Product.create(req.body);
 
-    return res.json(product);
+      return res.status(201).json(product);
+    } catch (err) {
+      res.status(400).json({ message: "Erro ao salvar produto" });
+    }
   },
 
   async update(req, res) {
