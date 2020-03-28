@@ -7,14 +7,44 @@ module.exports = {
    * @swagger
    * /api/v1/products:
    *  get:
-   *    description: Utilize para requisição de todos os produtos
+   *    description: Lista de produtos
    *    tags:
    *      - Products
+   *    consumes:
+   *      - application/json
    *    produces:
    *      - application/json
    *    responses:
-   *      '200':
-   *         description: products
+   *       200:
+   *         description:
+   *         schema:
+   *          $ref: '#/definitions/Products'
+   *       400:
+   *          description: "Invalid ID supplied"
+   *       404:
+   *          description: "Order not found"
+   * definitions:
+   *    Products:
+   *       type: object
+   *       properties:
+   *         id:
+   *            type: string
+   *            example: "5e7d17bc9eb75d446aa078d5"
+   *         title:
+   *            type: string
+   *            example: "Api nodeJS"
+   *         description:
+   *            type: string
+   *            example: "Documentação Swagger"
+   *         url:
+   *            type: string
+   *            example: "https://swagger.io/"
+   *         createdAd:
+   *            type: string
+   *            format: date-time
+   *       xml:
+   *          name: 'Product'
+   *
    */
   async index(req, res) {
     const { page = 1 } = req.query;
