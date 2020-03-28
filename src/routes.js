@@ -7,7 +7,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerOptions = {
   swaggerDefinition: {
     info: {
-      title: "Creating API with Rockertset.",
+      title: "Creating API with Rocketset.",
       version: "1.0.0",
       descritpion: "Documentação API Produtos",
       contact: {
